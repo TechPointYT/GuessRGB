@@ -18,11 +18,14 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity {
     private int numBut = 6;
     private RGBR[] colors = new RGBR[6];
     private Switch diffi;
     private Button[] choices = new Button[6];
+    private RGBR correctCol ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +47,12 @@ public class MainActivity extends AppCompatActivity {
                     easyMode();
                     numBut = 3;
                     createColors();
+                    setColors();
                 }else{
                     hardMode();
                     numBut = 6;
                     createColors();
+                    setColors();
                 }
 
             }
@@ -92,8 +97,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void corCol(){
+        Random rand = new Random();
+        correctCol = colors[rand.nextInt(6)];
+    }
 
-
+    public void checkIfCorrect(){}
 
 
 }
