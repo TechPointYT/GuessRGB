@@ -1,5 +1,7 @@
 package com.example.guessrgb;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -7,6 +9,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import android.view.View;
 import android.view.Menu;
@@ -16,7 +19,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 public class MainActivity extends AppCompatActivity {
-    private int numBut;
+    private int numBut = 6;
     private RGBR[] colors = new RGBR[6];
     private Switch diffi;
     private Button[] choices = new Button[6];
@@ -26,9 +29,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         diffi = (Switch) findViewById(R.id.diff);
+        setButtons();
+        createColors();
+        setColors();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setButtons();
         checkDifficulty();
     }
 
@@ -36,14 +41,15 @@ public class MainActivity extends AppCompatActivity {
         diffi.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    numBut = 6;
-                    createColors(numBut);
-                    hardMode();
-                }else{
-                    numBut = 3;
-                    createColors(numBut);
                     easyMode();
+                    numBut = 3;
+                    createColors();
+                }else{
+                    hardMode();
+                    numBut = 6;
+                    createColors();
                 }
+
             }
         });
     }
@@ -70,11 +76,24 @@ public class MainActivity extends AppCompatActivity {
         choices[5].setVisibility(View.VISIBLE);
     }
 
-    public void createColors(int numCol) {
-        for (int col = 0; col < numCol; col++) {
+    public void createColors() {
+        for (int col = 0; col < numBut; col++) {
             colors[col] = new RGBR();
+        }
+    }
+
+
+    public void setColors(){
+        int[] rgbCol;
+        for(int but = 0; but < numBut; but++){
+            rgbCol = colors[but].getRGB();
+            choices[but].setBackgroundColor(Color.rgb(rgbCol[0], rgbCol[1], rgbCol[2]));
         }
 
     }
+
+
+
+
 
 }
